@@ -1,0 +1,23 @@
+{
+  "name": "management-academic-tranzoategui",
+  "version": "1.0.0",
+  "description": "Information System with Electron and MySQL",
+  "main": "main.js",
+  "author": "Williams Montilla and Francisco Veracoechea",
+  "license": "CC0 1.0 Universal",
+  "scripts": {
+    "start": "electron main.js"
+  },
+  "dependencies": {
+    "electron": "^2.0.4",
+    "moment": "^2.22.2",
+    "mysql": "^2.15.0",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-router": "^4.3.1"
+  },
+  "devDependencies": {
+    "electron-reload": "^1.2.5",
+    "nodemon": "^1.18.1"
+  }
+}
