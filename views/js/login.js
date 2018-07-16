@@ -43,12 +43,16 @@ $(()=>{
     }, (error, results, fields) => {
       if (error) throw error;
       if(!emailValid){
-        frontend.removeLoader();
         errorModalCotent.innerHTML = `<p> El "email" es invalido, por favor ingrese uno con el formato correcto. </p>`;
+        frontend.removeLoader();
         $errorModal.modal("show");
       } else if(!results.length || password !== crypto.decrypt(results[0].password)){
-        frontend.removeLoader();
         errorModalCotent.innerHTML = `<p> Credenciales invalidas... </p>`;
+        frontend.removeLoader();
+        $errorModal.modal("show");
+      } else if (results[0].status !== 'ACTIVE'){
+        errorModalCotent.innerHTML = `<p>Este usuario se encuentra bloqueado, por favor pongase en contacto con los administradores</p>`;
+        frontend.removeLoader();
         $errorModal.modal("show");
       } else{
         sessionStorage.setItem('user', JSON.stringify(results[0]));

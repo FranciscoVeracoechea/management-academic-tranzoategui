@@ -59,7 +59,9 @@ const content = `
 
 const tab = `
 <li class="nav-item">
-  <a class="nav-link text-white" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Perfil</a>
+  <a data-tip="tooltip" data-placement="bottom" title="Mi Perfil" class="nav-link text-white" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
+  <i class="fa fa-user-circle" aria-hidden="true"></i>
+  </a>
 </li>
 `;
 module.exports = {

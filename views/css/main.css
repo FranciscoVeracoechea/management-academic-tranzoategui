@@ -19,6 +19,10 @@ img.avatar{
   max-height: 300px;
   object-fit: cover;
 }
+img.card-img-top{
+  height: 200px;
+  object-fit: cover;
+}
 .carousel-inner .carousel-item img{
   width: 100%;
   object-fit: cover;
@@ -48,4 +52,11 @@ img.avatar{
 
 textarea{
   resize: none;
+}
+a.nav-link.text-white:hover {
+  text-decoration: underline;
+}
+
+.nav-item a i {
+  font-size: 20px;
 }
