@@ -191,7 +191,7 @@ const addSubject = (subject, role, table = "tbody#subjects-tbody") =>{
           <a class="dropdown-item text-info subject-show" data-subject="${subject.id}" href="#"><i class="fa fa-eye" aria-hidden="true"></i> Ver más</a>
           ${
             (role !== consts.ROLES.ADMIN)
-            ? ''
+            ? ``
             :
               `<a class="dropdown-item text-info subject-edit" data-subject="${subject.id}" href="#"><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>
               <a class="dropdown-item text-danger subject-delete" data-subject="${subject.id}" href="#"><i class="fa fa-trash" aria-hidden="true"></i> Eliminar</a>`
@@ -221,9 +221,11 @@ const showModal = (subject, modalType = "dark") => {
         <br/>  <b>Numero de alumnos</b> ${subject.students_count}</p>
         <hr>
         <p class="mt-2">
-        <b>Descripción</b>
-        <br/>
-        ${subject.description}</p>
+          <b>Descripción</b>
+        </p>
+        <div class="form-group row p-2">
+          <textarea class="form-control" rows="12" readonly>${subject.description}</textarea>
+        </div>
         <hr>
         <div className="text-right">
           <small class="text-muted">${moment.duration(moment(subject.created_at).diff(moment())).humanize()}</small>
@@ -237,9 +239,57 @@ document.querySelector("#subjectModalsContainer").innerHTML = html;
 $("div#subjectModal").modal("show");
 }
 
+const editModal = (subject, modalType = "dark")=> {
+  let html = 
+  `<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="subjectModal" id="subjectModal" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-${modalType}">
+            <h5 class="modal-title text-light">Editar ${subject.name}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="editSubjectForm">
+              <div class="form-group row">
+                <label for="editSubjectEvaluationsInput" class="col-sm-2 col-form-label">Número de Evaluaciones</label>
+                <div class="col-sm-10">
+                  <input type="hidden" name="id" value="${subject.id}"/>
+                  <input type="number" value="${subject.evaluations_number}" name="evaluations_number" value="1" class="form-control" id="editSubjectEvaluationsInput" min="1" max="99" placeholder="Número de Evaluaciones" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="editSubjectWeeksInput" class="col-sm-2 col-form-label">Número de Semanas</label>
+                <div class="col-sm-10">
+                  <input type="number" value="${subject.weeks_number}" name="weeks_number" value="1" class="form-control" id="editSubjectWeeksInput" min="1" max="99" placeholder="Número de Semanas" required>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="editSubjectsDescripitonTextarea" class="col-sm-2 col-form-label">Contenido Programático</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" name="description" id="editSubjectsDescripitonTextarea" placeholder="Contenido Programático" rows="12" required
+                  >${subject.description}</textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-12 text-center">
+                  <button type="submit" class="btn btn-danger">Editar Programa</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>`;
+    document.querySelector("#subjectModalsContainer").innerHTML = html;
+    $("div#subjectModal").modal("show");
+}
+
 module.exports = {
   tab,
   content,
   addSubject,
-  showModal
+  showModal,
+  editModal
 }
