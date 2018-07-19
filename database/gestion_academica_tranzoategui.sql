@@ -18,7 +18,7 @@ CREATE TABLE users(
 ); 
 CREATE TABLE school_subjects(
     `id` BIGINT NOT NULL UNIQUE AUTO_INCREMENT,
-    `name` VARCHAR(25) NOT NULL UNIQUE,
+    `name` VARCHAR(68) NOT NULL UNIQUE,
     `description` TEXT,
     `evaluations_number` INT NOT NULL DEFAULT '8',
     `teachers_count` INT NOT NULL DEFAULT '0',
@@ -59,8 +59,8 @@ CREATE TABLE notices(
     `updated_at` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
---triggers
-
+------------    TRIGGERS    ---------------------
+-- minus_user_counters
 DELIMITER $$
 CREATE TRIGGER minus_user_counters AFTER DELETE ON 
     school_subjects__users FOR EACH ROW
@@ -78,6 +78,8 @@ BEGIN
 END; $$
 DELIMITER ;
 
+
+-- plus_user_counters
 DELIMITER $$
 CREATE TRIGGER plus_user_counters AFTER INSERT ON
     school_subjects__users FOR EACH ROW
@@ -94,3 +96,23 @@ BEGIN
 
 END; $$
 DELIMITER ;
+
+
+-- minus_evaluations_couter
+-- DELIMITER $$
+-- CREATE TRIGGER minus_evaluations_couter AFTER DELETE ON
+--     evaluations FOR EACH ROW
+-- BEGIN
+--         UPDATE school_subjects SET evaluations_number = evaluations_number - 1 WHERE id = OLD.school_subjects_id;
+-- END; $$
+-- DELIMITER ;
+
+
+-- -- plus_evaluations_couter
+-- DELIMITER $$
+-- CREATE TRIGGER plus_evaluations_couter AFTER INSERT ON
+--     evaluations FOR EACH ROW
+-- BEGIN
+--         UPDATE school_subjects SET evaluations_number = evaluations_number + 1 WHERE id = NEW.school_subjects_id;
+-- END; $$
+-- DELIMITER ;

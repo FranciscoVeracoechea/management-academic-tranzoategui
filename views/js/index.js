@@ -8,6 +8,7 @@ const moment = require('moment');
 const consts = require("./../../utils/consts");
 const frontend = require("./../../utils/frontend");
 const loadNotices = require("./../../utils/loadNotices");
+const loadAllSubjects = require("./../../utils/loadAllSubjects");
 // const edidNotice = require("./editNotice");
 
 //includes
@@ -35,6 +36,7 @@ function loadViews(){
   $TabsContent.append(ProfileHTML.content);  
   $tabsNav.append(Subjects.tab);
   $TabsContent.append(Subjects.content);  
+
   if(user.role === consts.ROLES.ADMIN){
     $tabsNav.append(NoticeHTML.tab);
     $TabsContent.append(NoticeHTML.content);
@@ -83,9 +85,9 @@ $( async ()=>{
   setStats();
   setProfile();
   await loadNotices(user.role);
+  await loadAllSubjects();
   $('[data-tip="tooltip"]').tooltip();
   frontend.removeLoader();
 
-  document.body.addEventListener("click", noticeCardsEventLinsteners);
-  document.querySelector("a#home-tab").addEventListener("click", ()=> loadNotices(user.role));
+  document.body.addEventListener("click", noticeCardsEventLinsteners); 
 });

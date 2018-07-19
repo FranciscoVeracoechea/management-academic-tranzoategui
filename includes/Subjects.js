@@ -43,7 +43,7 @@ const content = `
               <div class="row">
                 <div class="col-md-5">
                   <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Que buscas?" aria-label="Username" aria-describedby="basic-addon1">
+                    <input id="inputSearchSubject" type="text" class="form-control" placeholder="Que buscas?" aria-label="Username" aria-describedby="basic-addon1">
                     <div class="input-group-prepend">
                       <i id="basic-addon1" class="input-group-text fa fa-search" aria-hidden="true"></i>
                     </div>
@@ -51,71 +51,19 @@ const content = `
                 </div>
               </div>
               <div class="table-responsive">
-                <table class="table table-hover bg-light">
+                <table class="table table-hover bg-light" id="subjectsTable">
                   <thead class="bg-dark text-light">
                     <tr>
                       <th>Nombre</th>
                       <th>Evaluaciones</th>
                       <th>Profesores</th>
                       <th>Estudiantes</th>
+                      <th>Semanas</th>
                       <th><i class="fa fa-cogs" aria-hidden="true"></i></th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <th>Mark</th>
-                      <td>Otto</td>
-                      <td>@mdo</td>
-                      <td>@mdo</td>
-                      <td>
-                        <div class="btn-group btn-group-sm" role="group">
-                          <button id="btnGroupDrop1" type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Acciones
-                          </button>
-                          <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                            <a class="dropdown-item" href="#">Acciones link</a>
-                            <a class="dropdown-item" href="#">Acciones link</a>
-                            <a class="dropdown-item" href="#">Acciones link</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Jacob</th>
-                      <td>Jacob</td>
-                      <td>Thornton</td>
-                      <td>@fat</td>
-                      <td>
-                        <div class="btn-group btn-group-sm" role="group">
-                          <button id="btnGroupDrop1" type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Acciones
-                          </button>
-                          <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                            <a class="dropdown-item" href="#">Acciones link</a>
-                            <a class="dropdown-item" href="#">Acciones link</a>
-                            <a class="dropdown-item" href="#">Acciones link</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Larry the Bird</th>
-                      <td >Larry the Bird</td>
-                      <td >Larry the Bird</td>
-                      <td>@twitter</td>
-                      <td>
-                        <div class="btn-group btn-group-sm" role="group">
-                          <button id="btnGroupDrop1" type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Acciones
-                          </button>
-                          <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                            <a class="dropdown-item" href="#">Acciones link</a>
-                            <a class="dropdown-item" href="#">Acciones link</a>
-                            <a class="dropdown-item" href="#">Acciones link</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
+                  <tbody id="subjects-tbody">
+                    
                   </tbody>
                 </table>
               </div>
@@ -129,23 +77,29 @@ const content = `
                 <div class="card-header bg-dark text-light">
                   <h5><i class="fa fa-plus" aria-hidden="true"></i>  Nuevo programa de Formación</h5>
                 </div>
-                <form class="card-body" id="formNewNotice">
+                <form class="card-body" id="newSubjectForm">
                   <div class="form-group row">
-                    <label for="" class="col-sm-2 col-form-label">Título</label>
+                    <label for="subjectNameinput" class="col-sm-2 col-form-label">Título</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="" maxlength="68" placeholder="Título" required>
+                      <input type="text" name="name" class="form-control" id="subjectNameinput" maxlength="68" placeholder="Título" required>
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="" class="col-sm-2 col-form-label">Número de Evaluaciones</label>
+                    <label for="subjectEvaluationsInput" class="col-sm-2 col-form-label">Número de Evaluaciones</label>
                     <div class="col-sm-10">
-                      <input type="number" value="1" class="form-control" id="" min="1" max="99" placeholder="Número de Evaluaciones" required>
+                      <input type="number" name="evaluations_number" value="1" class="form-control" id="subjectEvaluationsInput" min="1" max="99" placeholder="Número de Evaluaciones" required>
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="" class="col-sm-2 col-form-label">Contenido Programático</label>
+                    <label for="subjectWeeksInput" class="col-sm-2 col-form-label">Número de Semanas</label>
                     <div class="col-sm-10">
-                      <textarea class="form-control" id="" placeholder="Contenido Programático" rows="5" required></textarea>
+                      <input type="number" name="weeks_number" value="1" class="form-control" id="subjectWeeksInput" min="1" max="99" placeholder="Número de Semanas" required>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="subjectsDescripitonTextarea" class="col-sm-2 col-form-label">Contenido Programático</label>
+                    <div class="col-sm-10">
+                      <textarea class="form-control" name="description" id="subjectsDescripitonTextarea" placeholder="Contenido Programático" rows="8" required></textarea>
                     </div>
                   </div>
                   <div class="form-group">
@@ -162,11 +116,37 @@ const content = `
       </div>
       </div>
     </div>
+    <script src="./../js/subjectsApp.js"></script>
   </section>
 </div>
 `;
+const addSubject = (subject) =>{
+  let html = `
+  <tr>
+    <th>${subject.name}</th>
+    <td>${subject.evaluations_number}</td>
+    <td>${subject.teachers_count}</td>
+    <td>${subject.students_count}</td>
+    <td>${subject.weeks_number}</td>
+    <td>
+      <div class="btn-group btn-group-sm" role="group">
+        <button id="btnGroupDrop1" type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Acciones
+        </button>
+        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+          <a class="dropdown-item text-info" data-subject="${subject.id}" href="#"><i class="fa fa-eye" aria-hidden="true"></i> Ver más</a>
+          <a class="dropdown-item text-info" data-subject="${subject.id}" href="#"><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>
+          <a class="dropdown-item text-danger" data-subject="${subject.id}" href="#"><i class="fa fa-trash" aria-hidden="true"></i> Eliminar</a>
+        </div>
+      </div>
+    </td>
+  </tr>
+  `;
+  $("tbody#subjects-tbody").append(html);
+}
 
 module.exports = {
   tab,
-  content
+  content,
+  addSubject
 }
