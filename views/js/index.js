@@ -87,4 +87,5 @@ $( async ()=>{
   frontend.removeLoader();
 
   document.body.addEventListener("click", noticeCardsEventLinsteners);
+  document.querySelector("a#home-tab").addEventListener("click", ()=> loadNotices(user.role));
 });
