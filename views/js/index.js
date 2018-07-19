@@ -35,7 +35,7 @@ function loadViews(){
   $tabsNav.append(ProfileHTML.tab);
   $TabsContent.append(ProfileHTML.content);  
   $tabsNav.append(Subjects.tab);
-  $TabsContent.append(Subjects.content);  
+  $TabsContent.append(Subjects.content(user.role));  
 
   if(user.role === consts.ROLES.ADMIN){
     $tabsNav.append(NoticeHTML.tab);
@@ -85,7 +85,7 @@ $( async ()=>{
   setStats();
   setProfile();
   await loadNotices(user.role);
-  await loadAllSubjects();
+  await loadAllSubjects(user.role);
   $('[data-tip="tooltip"]').tooltip();
   frontend.removeLoader();
 
