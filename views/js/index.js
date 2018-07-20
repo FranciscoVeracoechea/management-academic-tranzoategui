@@ -7,6 +7,7 @@ const moment = require('moment');
 //utils
 const consts = require("./../../utils/consts");
 const frontend = require("./../../utils/frontend");
+const deleteItem = require("./../../utils/deleteItem");
 const loadNotices = require("./../../utils/loadNotices");
 const loadAllSubjects = require("./../../utils/loadAllSubjects");
 // const edidNotice = require("./editNotice");
@@ -16,6 +17,7 @@ const NoticeHTML = require("../../includes/Notice");
 const ProfileHTML = require("./../../includes/ProfileView");
 const addListenersToEditNotice = require("./../../utils/addListenersToEditNotice");
 const Subjects = require("./../../includes/Subjects");
+const Users = require("./../../includes/Users");
 
 // let user = JSON.parse(sessionStorage.user);
 let user = JSON.parse('{"id":1,"ci":"25257248","fullname":"Francisco Veracoechea","password":"591eac8920f14465","email":"veracoechea@gmail.com","role":"ADMIN","age":18,"direction":"barcelona","biography":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut magnam similique perferendis minus maiores, nostrum aperiam cumque, at ea, quaerat quis qui ad sed architecto optio blanditiis consequuntur deserunt odio?","status":"ACTIVE","created_at":"2018-07-14T01:14:49.000Z","updated_at":"2018-07-14T02:26:47.000Z"}');
@@ -28,6 +30,7 @@ function setProfile(){
   document.getElementById("userAge").innerText = user.age;
   document.getElementById("userRole").innerText = user.role;
   document.getElementById("userCreatedAt").innerText = moment(user.created_at).format("DD/MM/YYYY");
+  document.getElementById("userPhone").innerText = "0414-2563698";
   document.querySelector("img.avatar").src = `./../img/${user.role.toLowerCase()}.png`;
 }
 function loadViews(){
@@ -40,6 +43,8 @@ function loadViews(){
   if(user.role === consts.ROLES.ADMIN){
     $tabsNav.append(NoticeHTML.tab);
     $TabsContent.append(NoticeHTML.content);
+    $tabsNav.append(Users.tab);
+    $TabsContent.append(Users.content);
     document.querySelector("#editNoticeModalContainer").innerHTML = NoticeHTML.editNoticeModal;
   }
 }
@@ -56,7 +61,7 @@ function fillEditNoticeForm(notice){
   document.querySelector("input#editNoticeType").value = notice.type;
   document.querySelector("textarea#editNoticeContent").value = notice.content;
 }
-async function  noticeCardsEventLinsteners(e){
+async function globalHandleOnClick(e){
   let notice = {};
   switch (e.target.className) {
     case "btn btn-sm btn-outline-danger view-notice-button":
@@ -68,6 +73,18 @@ async function  noticeCardsEventLinsteners(e){
       fillEditNoticeForm(notice);
       addListenersToEditNotice(notice.id);
       $("div#noticeEditModal").modal("show");
+      break;
+    default:
+      if(e.target.className.includes("btn-delete")){
+        if(confirm("Esta seguro de borrar este elemento?")){
+          deleteItem(e.target.dataset.id, e.target.dataset.table)
+          .then(()=> {
+            let row = $(e.target).parents("tr");
+            row.fadeOut(200);
+            document.querySelector("a#all-subjects-tab").click();
+          });
+        }
+      }
       break;
   }
 }
@@ -89,5 +106,6 @@ $( async ()=>{
   $('[data-tip="tooltip"]').tooltip();
   frontend.removeLoader();
 
-  document.body.addEventListener("click", noticeCardsEventLinsteners); 
+  document.body.addEventListener("click", globalHandleOnClick); 
+
 });

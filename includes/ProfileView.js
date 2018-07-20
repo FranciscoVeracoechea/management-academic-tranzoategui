@@ -11,31 +11,24 @@ const content = `
           </div>
           <div class="col-md-6">
             <h4 id="userFullname"></h4>
-            <cite id="userDirection"><i class="fa fa-map-marker"></i></cite>
+            <p><cite id="userDirection"><i class="fa fa-map-marker"></i></cite></p>
             <p>
-                <i class="fa fa-envelope" aria-hidden="true"></i> <span id="userEmail"></span>
-                <br />
-                <i class="fa fa-id-card"></i> <span id="userCi"></span>
-                <br />
-                <i class="fa fa-calendar"></i> <span id="userCreatedAt"></span>
-                <br>
-                <b>Edad</b> <span id="userAge"></span>
+              <i class="fa fa-envelope" aria-hidden="true"></i> <span id="userEmail"></span>
+            </p>
+            <p>
+              <i class="fa fa-id-card"></i> <span id="userCi"></span>
+            </p>
+            <p>
+              <i class="fa fa-calendar"></i> <span id="userCreatedAt"></span>
+            </p>
+            <p>
+              <b>Edad</b> <span id="userAge"></span>
             </p>
             <!-- Split button -->
-            <div class="btn-group">
-                <button type="button" class="btn btn-danger">
-                    Social</button>
-                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span><span class="sr-only">Social</span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Twitter</a></li>
-                    <li><a href="https://plus.google.com/+Jquery2dotnet/posts">Google +</a></li>
-                    <li><a href="https://www.facebook.com/jquery2dotnet">Facebook</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">Github</a></li>
-                </ul>
-            </div>
+            <a type="button" class="btn btn-danger">
+              <i class="fa fa-phone" aria-hidden="true"></i>
+              <span id="userPhone"></span>
+            </a>
           </div>
         </div>
       </div>

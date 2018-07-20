@@ -194,7 +194,7 @@ const addSubject = (subject, role, table = "tbody#subjects-tbody") =>{
             ? ``
             :
               `<a class="dropdown-item text-info subject-edit" data-subject="${subject.id}" href="#"><i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>
-              <a class="dropdown-item text-danger subject-delete" data-subject="${subject.id}" href="#"><i class="fa fa-trash" aria-hidden="true"></i> Eliminar</a>`
+              <a class="dropdown-item text-danger btn-delete" data-id="${subject.id}" data-table="school_subjects" href="#"><i class="fa fa-trash" aria-hidden="true"></i> Eliminar</a>`
           }
         </div>
       </div>
@@ -204,12 +204,12 @@ const addSubject = (subject, role, table = "tbody#subjects-tbody") =>{
   $(table).append(html);
 }
 
-const showModal = (subject, modalType = "dark") => {
+const showModal = (subject, students, teachers) => {
   let html= `
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="subjectModal" id="subjectModal" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header bg-${modalType}">
+      <div class="modal-header bg-dark">
         <h5 class="modal-title text-light">${subject.name}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -226,9 +226,56 @@ const showModal = (subject, modalType = "dark") => {
         <div class="form-group row p-2">
           <textarea class="form-control" rows="12" readonly>${subject.description}</textarea>
         </div>
-        <hr>
         <div className="text-right">
           <small class="text-muted">${moment.duration(moment(subject.created_at).diff(moment())).humanize()}</small>
+        </div>
+        <hr>
+        <h4>Estudiantes</h4>
+        <div class="table-responsive">
+          <table class="table table-hover table-dark table-sm" id="subjectsStudentsTable">
+            <thead class="bg-info text-light">
+                <tr>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Telefono</th>
+              </tr>
+            </thead>
+            <tbody id="subjects-students-tbody">
+            ${
+              students.map(student => `
+                <tr>
+                  <td>${student.fullname}</td>
+                  <td>${student.email}</td>
+                  <td>${student.phone}</td>
+                </tr>
+              `)
+            }
+            </tbody>
+          </table>
+        </div>
+        <hr>
+        <h4>Profesores</h4>
+        <div class="table-responsive">
+          <table class="table table-hover table-dark table-sm" id="subjectsTeachersTable">
+            <thead class="text-light bg-info">
+              <tr>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Telefono</th>
+              </tr>
+            </thead>
+            <tbody id="subjects-teachers-tbody">
+            ${
+              teachers.map(teacher => `
+                <tr>
+                  <td>${teacher.fullname}</td>
+                  <td>${teacher.email}</td>
+                  <td>${teacher.phone}</td>
+                </tr>
+              `)
+            }
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -239,12 +286,12 @@ document.querySelector("#subjectModalsContainer").innerHTML = html;
 $("div#subjectModal").modal("show");
 }
 
-const editModal = (subject, modalType = "dark")=> {
+const editModal = (subject, students, teachers)=> {
   let html = 
   `<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="subjectModal" id="subjectModal" aria-hidden="true">
       <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-          <div class="modal-header bg-${modalType}">
+          <div class="modal-header bg-info">
             <h5 class="modal-title text-light">Editar ${subject.name}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
@@ -278,6 +325,58 @@ const editModal = (subject, modalType = "dark")=> {
                 </div>
               </div>
             </form>
+            <hr>
+            <h4>Estudiantes</h4>
+            <div class="table-responsive">
+              <table class="table table-hover table-dark table-sm" id="subjectsStudentsTable">
+                <thead class="bg-info text-light">
+                    <tr>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Telefono</th>
+                    <th><i class="fa fa-cogs" aria-hidden="true"></i></th>
+                  </tr>
+                </thead>
+                <tbody id="subjects-students-tbody">
+                ${
+                  students.map(student => `
+                    <tr>
+                      <td>${student.fullname}</td>
+                      <td>${student.email}</td>
+                      <td>${student.phone}</td>
+                      <td><button data-id="${student.relation_id}" class="btn btn-sm btn-danger btn-delete" data-table="school_subjects__users">Eliminar de este programa</button></td>
+                    </tr>
+                  `)
+                }
+                </tbody>
+              </table>
+            </div>
+            <hr>
+            <h4>Profesores</h4>
+            <div class="table-responsive">
+              <table class="table table-hover table-dark table-sm" id="subjectsTeachersTable">
+                <thead class="bg-info text-light">
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Telefono</th>
+                    <th><i class="fa fa-cogs" aria-hidden="true"></i></th>
+                  </tr>
+                </thead>
+                <tbody id="subjects-teachers-tbody">
+                ${
+                  teachers.map(teacher => `
+                    <tr>
+                      <td>${teacher.fullname}</td>
+                      <td>${teacher.email}</td>
+                      <td>${teacher.phone}</td>
+                      <td><button data-id="${teacher.relation_id}" class="btn btn-sm btn-danger btn-delete" data-table="school_subjects__users">Eliminar de este programa</button></td>
+                    </tr>
+                  `)
+                }
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

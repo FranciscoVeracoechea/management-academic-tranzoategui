@@ -11,12 +11,10 @@ const loadSingleSubject = require("./../../utils/loadSingleSubject");
 const SubjectsHTML = require("./../../includes/Subjects");
 const consts = require("./../../utils/consts");
 let subjectsTab = document.querySelector("a#all-subjects-tab");
-subjectsTab.addEventListener("click", loadAllSubjects);
 
 
 // let user = JSON.parse(sessionStorage.user);
 user = JSON.parse('{"id":1,"ci":"25257248","fullname":"Francisco Veracoechea","password":"591eac8920f14465","email":"veracoechea@gmail.com","role":"ADMIN","age":18,"direction":"barcelona","biography":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut magnam similique perferendis minus maiores, nostrum aperiam cumque, at ea, quaerat quis qui ad sed architecto optio blanditiis consequuntur deserunt odio?","status":"ACTIVE","created_at":"2018-07-14T01:14:49.000Z","updated_at":"2018-07-14T02:26:47.000Z"}');
-
 
 const search = (input = '', table = '') => {
   $("input#inputSearchSubject").keyup(function(){
@@ -30,24 +28,32 @@ const search = (input = '', table = '') => {
   });
 }
 
+function filterByRole(users, role) {
+  return users.filter(user => user.role === role);
+}
+
 function handleOnClickSubjectActions(e){
   switch (e.target.className) {
     case "dropdown-item text-info subject-show":
       loadSingleSubject(e.target.dataset.subject)
-      .then(subject => SubjectsHTML.showModal(subject));
+      .then(data => {
+        SubjectsHTML.showModal(data.subject, filterByRole(data.users, consts.ROLES.STUDENT), filterByRole(data.users, consts.ROLES.TEACHER));
+      });
       break;
     case "dropdown-item text-info subject-edit":
       loadSingleSubject(e.target.dataset.subject)
-      .then(subject => SubjectsHTML.editModal(subject));
+      .then(data => {
+        SubjectsHTML.editModal(data.subject, filterByRole(data.users, consts.ROLES.STUDENT), filterByRole(data.users, consts.ROLES.TEACHER));
+      });
       break;
-  
-    default:
-      // e.preventDefault();
+    case "dropdown-item text-danger subject-delete":
+      // delete
       break;
   }
 }
 
 $(()=>{
+  subjectsTab.addEventListener("click", ()=> loadAllSubjects(user.role));
   let $newSubjectForm = $("form#newSubjectForm"),
       $editSubjectForm = $("form#editSubjectForm");
   if(user.role !== consts.ROLES.ADMIN){
