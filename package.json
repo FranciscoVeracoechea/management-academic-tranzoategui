@@ -17,6 +17,7 @@
     "react-router": "^4.3.1"
   },
   "devDependencies": {
+    "electron-builder": "^20.24.4",
     "electron-reload": "^1.2.5",
     "nodemon": "^1.18.1"
   }

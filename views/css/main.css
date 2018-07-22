@@ -60,3 +60,19 @@ a.nav-link.text-white:hover {
 .nav-item a i {
   font-size: 20px;
 }
+a.nav-link.list-group-item.list-group-item-action.subjects-tab-menu{
+  cursor: pointer;
+}
+
+.scroll-list{
+
+    max-height: 250px;
+    margin-bottom: 14px;
+    overflow-y:scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: 0 0 2px #222;
+}
+.scroll-list .list-group-item{
+  cursor: pointer;
+}

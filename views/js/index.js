@@ -9,6 +9,8 @@ const consts = require("./../../utils/consts");
 const frontend = require("./../../utils/frontend");
 const deleteItem = require("./../../utils/deleteItem");
 const loadNotices = require("./../../utils/loadNotices");
+const getAllSubjects = require("./../../utils/getAllSubjects");
+const loadSingleUser = require("./../../utils/loadSingleUser");
 const loadAllSubjects = require("./../../utils/loadAllSubjects");
 // const edidNotice = require("./editNotice");
 
@@ -18,11 +20,12 @@ const ProfileHTML = require("./../../includes/ProfileView");
 const addListenersToEditNotice = require("./../../utils/addListenersToEditNotice");
 const Subjects = require("./../../includes/Subjects");
 const Users = require("./../../includes/Users");
+const Evaluations = require("../../includes/Evaluations");
 
-// let user = JSON.parse(sessionStorage.user);
-let user = JSON.parse('{"id":1,"ci":"25257248","fullname":"Francisco Veracoechea","password":"591eac8920f14465","email":"veracoechea@gmail.com","role":"ADMIN","age":18,"direction":"barcelona","biography":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut magnam similique perferendis minus maiores, nostrum aperiam cumque, at ea, quaerat quis qui ad sed architecto optio blanditiis consequuntur deserunt odio?","status":"ACTIVE","created_at":"2018-07-14T01:14:49.000Z","updated_at":"2018-07-14T02:26:47.000Z"}');
+let user = JSON.parse(sessionStorage.user);
+// let user = JSON.parse('{"id":1,"ci":"25257248","fullname":"Francisco Veracoechea","password":"591eac8920f14465","email":"veracoechea@gmail.com","role":"ADMIN","age":18,"direction":"barcelona","biography":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut magnam similique perferendis minus maiores, nostrum aperiam cumque, at ea, quaerat quis qui ad sed architecto optio blanditiis consequuntur deserunt odio?","status":"ACTIVE","created_at":"2018-07-14T01:14:49.000Z","updated_at":"2018-07-14T02:26:47.000Z"}');
 
-function setProfile(){
+async function setProfile(){
   document.getElementById("userFullname").innerText = user.fullname;
   document.getElementById("userDirection").innerText = user.direction;
   document.getElementById("userEmail").innerText = user.email;
@@ -32,6 +35,12 @@ function setProfile(){
   document.getElementById("userCreatedAt").innerText = moment(user.created_at).format("DD/MM/YYYY");
   document.getElementById("userPhone").innerText = "0414-2563698";
   document.querySelector("img.avatar").src = `./../img/${user.role.toLowerCase()}.png`;
+  if(user.role === consts.ROLES.STUDENT){
+    let evaluations = await loadProfileEvaluations(user.id);
+    if(evaluations){
+      ProfileHTML.profileEvaluations(evaluations);
+    }
+  }
 }
 function loadViews(){
   let $tabsNav = $("#tabsNav"), $TabsContent = $("#TabsContent");
@@ -46,6 +55,10 @@ function loadViews(){
     $tabsNav.append(Users.tab);
     $TabsContent.append(Users.content);
     document.querySelector("#editNoticeModalContainer").innerHTML = NoticeHTML.editNoticeModal;
+  }
+  if(user.role !== consts.ROLES.STUDENT){
+    $tabsNav.append(Evaluations.tab);
+    $TabsContent.append(Evaluations.content);
   }
 }
 function loadSingleNotice(id){
@@ -74,6 +87,19 @@ async function globalHandleOnClick(e){
       addListenersToEditNotice(notice.id);
       $("div#noticeEditModal").modal("show");
       break;
+    case "dropdown-item text-info user-show":
+      let userDAta = await loadSingleUser(e.target.dataset.user);
+      Users.showUser(userDAta);
+      // $("div#noticeEditModal").modal("show");
+      break;
+    case "btn btn-info newEvaluation-button":
+      $("div#newEvaluationModal").modal("show");
+      break;
+    case "dropdown-item text-info user-to-subject":
+      let subjects = await getAllSubjects();
+      Users.addToProgramModal(subjects, e.target.dataset.user);
+      $("div#addToSubjectModal").modal("show");
+      break;
     default:
       if(e.target.className.includes("btn-delete")){
         if(confirm("Esta seguro de borrar este elemento?")){
@@ -94,6 +120,18 @@ function setStats(){
   $(".stats").append(`Sistema operativo: <span>${os.type()}</span>`);
 }
 
+function loadProfileEvaluations(user_id){
+  return new Promise(resolve => {
+    if(user.role === consts.ROLES.STUDENT){
+      pool.query(`SELECT * FROM evaluations WHERE student_id=${user_id}`, (err, results)=>{
+        if(err) throw err;
+        resolve(results);
+      });
+    } else {
+      resolve(false);
+    }
+  })
+}
 
 //Excecutiosn on Dom!
 $( async ()=>{

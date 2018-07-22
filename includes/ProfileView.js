@@ -47,6 +47,7 @@ const content = `
       </div>
     </div>
   </div>
+  <div class="row" id="evaluationsContainer"></div>
 </div>
 `;
 
@@ -57,6 +58,42 @@ const tab = `
   </a>
 </li>
 `;
+
+const profileEvaluations = (evaluations) =>{
+  console.log(evaluations)
+  let html =  ` 
+      <div class="col-md-12">
+        <div class="table-responsive">
+        <br/>
+        <br/>
+          <h5>Evaluaciones</h5>
+          <table class="table table-hover table-sm bg-ligth" id="userEvaluationsTable">
+            <thead class="bg-info text-light">
+              <tr>
+                <th>Nro de control</th>
+                <th>Descripción</th>
+                <th>calificación</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody id="userEvaluationsTbody">
+              ${
+                evaluations.map( ev => `
+                  <tr>
+                    <td>${ev.id}</td>
+                    <td>${ev.description}</td>
+                    <td>${ev.qualification}</td>
+                    <td>${moment(ev.created_at).format("L")}</td>
+                  </tr>
+                `)
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+  `;
+  $("div#evaluationsContainer").append(html);
+}
 module.exports = {
-  content, tab
+  content, tab, profileEvaluations
 }

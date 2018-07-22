@@ -6,9 +6,15 @@ module.exports = (id, table) => {
   console.log(query)
   return new Promise(resolve => {
     pool.query(query, (err, results) => {
-      if(err) throw err;
-      console.log(results)
-      resolve(results);
+      if(err) {
+        $('html, body').animate({
+          scrollTop: 0
+        }, 400);
+        frontend.showAlert(`Error al borrar`, `${err.message}`, 'danger');
+        frontend.removeLoader();
+      } else {
+        resolve(results);
+      }
     });
   });
 };

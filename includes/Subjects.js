@@ -232,7 +232,7 @@ const showModal = (subject, students, teachers) => {
         <hr>
         <h4>Estudiantes</h4>
         <div class="table-responsive">
-          <table class="table table-hover table-dark table-sm" id="subjectsStudentsTable">
+          <table class="table table-hover table-sm" id="subjectsStudentsTable">
             <thead class="bg-info text-light">
                 <tr>
                 <th>Nombre</th>
@@ -256,7 +256,7 @@ const showModal = (subject, students, teachers) => {
         <hr>
         <h4>Profesores</h4>
         <div class="table-responsive">
-          <table class="table table-hover table-dark table-sm" id="subjectsTeachersTable">
+          <table class="table table-hover table-sm" id="subjectsTeachersTable">
             <thead class="text-light bg-info">
               <tr>
                 <th>Nombre</th>
@@ -328,7 +328,7 @@ const editModal = (subject, students, teachers)=> {
             <hr>
             <h4>Estudiantes</h4>
             <div class="table-responsive">
-              <table class="table table-hover table-dark table-sm" id="subjectsStudentsTable">
+              <table class="table table-hover table-sm" id="subjectsStudentsTable">
                 <thead class="bg-info text-light">
                     <tr>
                     <th>Nombre</th>
@@ -354,7 +354,7 @@ const editModal = (subject, students, teachers)=> {
             <hr>
             <h4>Profesores</h4>
             <div class="table-responsive">
-              <table class="table table-hover table-dark table-sm" id="subjectsTeachersTable">
+              <table class="table table-hover table-sm" id="subjectsTeachersTable">
                 <thead class="bg-info text-light">
                   <tr>
                     <th>Nombre</th>

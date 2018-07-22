@@ -18,7 +18,7 @@ const loadSingleSubjec = (id) =>{
         ORDER BY school_subjects.id DESC`, 
       (err, results) => {
         if (err) throw err;
-        resolve({subject, users: results})
+        resolve({subject, users: results});
       });
     });
   });
